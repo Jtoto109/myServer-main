@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>
+            Write Library
+        </title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/js/library.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>Enter Book Data Into Library</h1>
+        </header>
+
+        <main>
+            <section>
+                <form>
+                    <div>
+                        <label for="bookTitle">Book Title</label>
+                        <input type ="text" id="bookTitle" name="bookTitle" size=30>
+                    </div>
+                    <div>
+                        <label for="author">Author</label>
+                        <input type ="text" id="author" name="author" size=30>
+                    </div>
+                    <div>
+                        <label for="publisher">Publisher</label>
+                        <input type ="publisher" id="publisher" name="publisher" size=30>
+                    </div>
+                    <div>
+                        <label for="yearPublished">Year Published</label>
+                        <input type ="text" id="yearPublished" name="yearPublished" size=30>
+                    </div>
+                    <div>
+                        <label for="isbn">ISBN</label>
+                        <input type ="text" id="isbn" name="isbn" size=30>
+                    </div>
+                    <div id="save_button">
+                        <button id="data-submit">Submit</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+        <script>
+            activateSubmitButton();
+        </script>
+    </body>
+</html>

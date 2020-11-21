@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>
+            Browse Library
+        </title>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    </head>
+
+    <body>
+        <!-- <div>This is the placeholder for the return list</div><br> -->
+        <header class="header">
+            <section class="relative text-left">
+              <div class="container">
+                <div class="text-left">
+                  <h1 class='title'><span class='text-bold'>Library Book Repository</span></h1>
+                </div>
+              </div>
+            </section>
+        </header>
+
+        <div id="router_button" class="btn-group-variant config-buttons">
+            <button id="browse-router" class="btn btn-sm edit_btn router-button" data-target="/write-library">Add Record</button>
+        </div>
+
+        <!-- create a table for the library data to be displayed -->
+        <main class="page-content">
+            <div class="col-xs-11">
+                <table class="table-striped table">
+                    <colgroup>
+                        <col class='col-xs-3'>
+                    </colgroup>
+                    <thead>
+                        <tr class='bg-light'>
+                            <th class="text-left">ID</th>
+                            <th class="text-left">Title</th>
+                            <th class="text-left">Author</th>
+                            <th class="text-left">Publisher</th>
+                            <th class="text-center">Year Published</th>
+                            <th class="text-center">ISBN</th>
+                        </tr>
+                    </thead>
+                    <tbody id='libraryTable'></tbody>
+                </table>
+                <script src='/js/library.js'></script>
+                <script>
+                    getLibraryData();
+                </script>
+            </div>
+        </main>
+        <!--<script src="/js/config.js"></script>-->
+       
+      
+
+    </body>
+</html>
