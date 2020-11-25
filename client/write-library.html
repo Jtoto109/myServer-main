@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang='en'>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/client/js/write-library.js" async></script>
+        <script src="/client/js/config.js" async></script>
+       
         <title>
             Write Library
         </title>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="/js/library.js"></script>
+
+        <style>
+            h1 { color: #FFFFFF;
+            }
+            body {
+                background-image: url('/client/LibraryPottermore.png');
+                background-repeat:no-repeat;
+                background-size: cover;
+            }
+
+            label { color: #FFFFFF;}
+        </style>
     </head>
 
     <body>
         <header>
-            <h1>Enter Book Data Into Library</h1>
+            <h1>Enter Book Data Into The Library</h1>
         </header>
-
+        <div id="router_button">
+            <a href="/client/home-library.html" id="id3">Home</a>
+        </div>
+        <div id="router_button">
+            <a href="/client/browse-library.html" id="id4">Browse Library</a>
+        </div>
+        
         <main>
             <section>
                 <form>
@@ -43,8 +63,5 @@
                 </form>
             </section>
         </main>
-        <script>
-            activateSubmitButton();
-        </script>
     </body>
 </html>

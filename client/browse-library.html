@@ -5,12 +5,25 @@
             Browse Library
         </title>
 
+        <style>
+            h1 { color: #FFFFFF;
+            }
+            body {
+                background-image: url('/client/LibraryPottermore.png');
+                background-repeat:no-repeat;
+                background-size: cover;
+                color: #FFFFFF;
+            }
+            table thead th { color: white; font-size:15pt; }
+        </style>
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+        <script src="/client/js/config.js" async></script>
+        <script src="/client/js/browse-library.js" async></script>
     </head>
 
-    <body>
+   
         <!-- <div>This is the placeholder for the return list</div><br> -->
         <header class="header">
             <section class="relative text-left">
@@ -22,13 +35,20 @@
             </section>
         </header>
 
-        <div id="router_button" class="btn-group-variant config-buttons">
-            <button id="browse-router" class="btn btn-sm edit_btn router-button" data-target="/write-library">Add Record</button>
+        <div id="router_button2">
+            <a href="/client/home-library.html" id="id1">Home</a>
         </div>
-
+        <div id="router_button">
+            <a href="/client/write-library.html" id="id2">Add Record</a>
+        </div>
+          
+        
         <!-- create a table for the library data to be displayed -->
         <main class="page-content">
             <div class="col-xs-11">
+                <div id="router_button">
+                    <a href="/client/write-library.html" id = "browse-router"></a>
+                 
                 <table class="table-striped table">
                     <colgroup>
                         <col class='col-xs-3'>
@@ -45,13 +65,13 @@
                     </thead>
                     <tbody id='libraryTable'></tbody>
                 </table>
-                <script src='/js/library.js'></script>
+                
                 <script>
                     getLibraryData();
                 </script>
             </div>
         </main>
-        <!--<script src="/js/config.js"></script>-->
+ 
        
       
 
