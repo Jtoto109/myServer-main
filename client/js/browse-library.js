@@ -1,36 +1,18 @@
-//retrieve the library data and populate on page load
-//function getLibraryData() {
-$.ajax({
-    url: libraryURL + "/read-records",
-    type:"get",
-    success: function(response) {
-        var data = jQuery.parseJSON(response);
-        createLibraryTable(data);
-    }
- });
+retrieveData(); //get initial load
 
- $('.delete_button').click(function() {
-    var itemID = this.getAttribute("data-id");
-
-$.ajax({
-    url: libraryURL + "/delete-records",
-    type: "delete",
-    success: function(response){
-        
-        $.ajax({
-            url: libraryURL + "/read-records",
-            type:"get",
-            success: function(response) {
-                var data = jQuery.parseJSON(response);
-                createLibraryTable(data);
-            }
-         });    
-
-
-    }
-});
-});
-
+function retrieveData() {
+    //retrive the library data and populate on page load
+    $.ajax({
+        url: libraryURL + "/read-records",
+        type:"get",
+        success: function(response) {
+            var data = JSON.parse(response);
+            createLibraryTable(data);
+        },
+        error: function(err) {
+            alert(err);
+        }
+    });
 
 function createLibraryTable(libraryData){
     var tableHTML;
@@ -43,11 +25,36 @@ function createLibraryTable(libraryData){
             tableHTML += "<td>" + libraryData[i].publisher + "</td>";
             tableHTML += "<td>" + libraryData[i].yearPublished + "</td>";
             tableHTML += "<td>" + libraryData[i].isbn + "</td>";
-            tableHTML += "<td class = 'delete_button'>"
-            +"<button data-id='" + libraryData[i].ID + "'>DELETE</button>";
-            + "</td>";
-        tableHTML += "</tr>"
+            tableHTML += "<td>"
+                        + "<button class ='btn btn-sm edit_btn delete-button' "
+                        + "data-id='" + libraryData[i].ID
+                        + "'>DELETE</button>"
+                        + "</td>";
+            tableHTML += "</tr>";
     }
-    
-    $('#libraryTable').html(tableHTML);
-};
+             
+    $("#libraryTable").html(tableHTML);
+    activateDelete();
+}
+
+function activateDelete() {
+    $('.delete-button').click(function() {
+        var deleteID = this.getAttribute("data-id");
+
+        $.ajax({
+            url: libraryURL + "/delete-record",
+            type: "delete",
+            data: {deleteID: deleteID},
+            success: function(response){
+                if(response ="SUCCESS") {
+                    retrieveData();//repaint table
+                }   else {
+                    alert(response);
+                }
+            },
+            error: function(err) {
+                alert(err);
+            }
+        });
+    });
+}}

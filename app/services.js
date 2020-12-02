@@ -16,7 +16,7 @@ var services = function(app){
             if(err) {
                 res.send(err);
             } else {
-                res.send("Book Submitted Successfully");
+                res.send("SUCCESS");
             }
         })
     });
@@ -27,38 +27,37 @@ var services = function(app){
                 res.send(err);
             } else {
                 data = "[" + data + "]";
-                //console.log(data);
+                var parsedData = JSON.parse(data);
                 res.send(data);
                 }
         });
     });
 
     app.delete('/delete-records', function(req, res) {  
-        var data = req.body.data;
-        var id = data.id;
+        var deleteID = req.body.deleteID;
         
         fs.readFile(outputFile, "utf8", function(err, data){
             if(err) {
                 res.send(err);
             } else {
                 data = "[" + data + "]";
-                res.send(data);
+                var libraryData = JSON.parse(data);
 
-                var parsedData = JSON.parse(data);
-                console.log(parsedData);
-                for(var i=0; i<parsedData.length; i++) {
-                    if(id == parsedData[i].ID) {
-                    parsedData.splice(i,1);
-                    break;
+                for(var i=0; i<libraryData.length; i++) {
+                    if(libraryData[i].ID == deleteID){
+                        libraryData.splice(i,1);
+                        break;
                     }
                 }
-                var dataString = JSON.stringify(parsedData)
-                fs.writeFile(outputFile, "utf8", function(err, data){
-                    if(err){
-                        res.send(err);
-                    } else{
-                        data = "[" + data + "]";
-                    res.send(data);
+               
+                var updatedData = JSON.stringify(libraryData);
+                var storeUpdatedData = updatedData.substring(1, updatedData.length-1);
+            
+                fs.writeFile(outputFile, storeUpdatedData, function(err) {
+                    if(err) {
+                        res.send(err); 
+                    } else {
+                        res.send("SUCCESS");
                     }
                 })
             }
