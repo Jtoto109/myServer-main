@@ -33,7 +33,7 @@ var services = function(app){
         });
     });
 
-    app.delete('/delete-records', function(req, res) {  
+    app.delete('/delete-record', function(req, res) {  
         var deleteID = req.body.deleteID;
         
         fs.readFile(outputFile, "utf8", function(err, data){
