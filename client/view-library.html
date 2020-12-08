@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Library Table</title>
+        <style>
+            h1 { color: #FFFFFF;
+            }
+            body {
+                background-image: url('/client/LibraryPottermore.png');
+                background-repeat:no-repeat;
+                background-size: cover;
+                color: #FFFFFF;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="/client/js/view-library.js"></script>
+    </head>
+    <body data-ng-app="viewLibraryApp" data-ng-controller="viewLibraryCntrl">
+        <div stype="font-size: 30px;">
+            <label for="title">Title: </label>
+            <lable style="margin-left: 30px; color:blue" id="title">{{ obj.title }}</label>
+        </div>
+        <div stype="font-size: 30px;">
+            <label for="author">Author </label>
+            <lable style="margin-left: 30px; color:blue" id="author">{{ obj.author }}</label>
+        </div>
+        <div stype="font-size: 30px;">
+            <label for="publisher">Publisher: </label>
+            <lable style="margin-left: 30px; color:blue" id="publisher">{{ obj.publisher }}</label>
+        </div>
+        <div stype="font-size: 30px;">
+            <label for="year-published">Year Published: </label>
+            <lable style="margin-left: 30px; color:blue" id="year-published">{{ obj.year-published }}</label>
+        </div>
+        <div stype="font-size: 30px;">
+            <label for="isbn">ISBN: </label>
+            <lable style="margin-left: 30px; color:blue" id="isbnr">{{ obj.isbn }}</label>
+        </div>
+
+
+        <div style="float: left; margin-top: 30px">
+            <div style="float: left">
+                <button id="previous" data-ng-click="changeTitle(-1)" data-ng-hide="hidePrev">
+                    &lt&lt&lt Previous 
+                </button>
+            </div>
+
+        <div style="float: left; margin-left: {{margin}};">
+                <div style="float: left">
+                    <button id="next" data-ng-click="changeTitle(1)" data-ng-hide="hideNext">
+                        Next &gt&gt&gt 
+                    </button>
+                </div>
+        </div>
+
+
+    </body>
+</html>

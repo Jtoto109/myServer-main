@@ -14,6 +14,10 @@ var router = function(app) {
     app.get('/browse-library', function(req, res){
         res.status(200).sendFile(path.join(__dirname +'/../client/browse-library.html'));
     });
+
+    app.get('/view-library', function(req, res){
+        res.status(200).sendFile(path.join(__dirname +'/../client/view-library.html'));
+    });
 }
 
 module.exports = router;
