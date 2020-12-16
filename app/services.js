@@ -1,71 +1,89 @@
-const fs = require('fs');
-var outputFile = './files/library.txt';
+//const fs = require('fs');
+const MongoClient = require("mongodb").MongoClient;
+const ObjectID = require("mongodb").ObjectID;
+const dbURL = process.env.DB_URI || "mongodb://localhost"; 
 
+//var outputFile = './files/library.txt';
 //service listeners
 var services = function(app){
     app.post('/write-record', function(req, res) {
-        var data = req.body.data;
+        //var data = req.body.data;
 
-        console.log(data);
-
-        if(fs.existsSync(outputFile)){
-            data = "," + data;
+        var data = {
+            bookTitle: req.body.bookTitle,
+            author: req.body.author,
+            publisher: req.body.publisher,
+            yearPublished: req.body.yearPublished,
+            Isbn: req.body.isbn            
         };
 
-        fs.appendFile(outputFile, data, function(err) {
-            if(err) {
-                res.send(err);
-            } else {
-                res.send("SUCCESS");
-            }
-        })
-    });
+        MongoClient.connect(dbURL, {useUnifiedTopology:true}, function(err, client) {
+			if(err){
+				return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
+			} else {
+				var dbo = client.db("libraryDatabase");
+
+				dbo.collection("titles").insertOne(data), function(err, data){
+					if(err) {
+						client.close();
+						return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
+					} else {
+						client.close();
+						return res.status(200).send(JSON.stringify({msg:"SUCCESS"}));
+
+					}
+				};
+			}
+		});
+
+    })
     
     app.get('/read-records', function(req, res) {
-        fs.readFile(outputFile, "utf8", function(err, data){
-            if(err) {
-                res.send(err);
-            } else {
-                data = "[" + data + "]";
-                var parsedData = JSON.parse(data);
-                res.send(data);
-                }
-        });
-    });
+        MongoClient.connect(dbURL, {useUnifiedTopology:true}, function(err, client) {
+			if(err){
+				return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
+			} else {
+                var dbo = client.db("libraryDatabase");
+                
+                dbo.collection("titles").find().toArray(function(err, data){
+					if(err) {
+						client.close();
+						return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
+					} else {
+						client.close();
+						return res.status(200).send(JSON.stringify({msg:"SUCCESS", titles: data}));
 
-    app.delete('/delete-record', function(req, res) {  
+					}
+				});
+			}
+        });
+    })
+
+        
+  app.delete('/delete-record', function(req, res) {  
         var deleteID = req.body.deleteID;
         
-        fs.readFile(outputFile, "utf8", function(err, data){
-            if(err) {
-                res.send(err);
-            } else {
-                data = "[" + data + "]";
-                var libraryData = JSON.parse(data);
+        var t_id = new ObjectID(deleteID);
+        var search = {_id: s_id};
 
-                for(var i=0; i<libraryData.length; i++) {
-                    if(libraryData[i].ID == deleteID){
-                        libraryData.splice(i,1);
-                        break;
-                    }
-                }
-               
-                var updatedData = JSON.stringify(libraryData);
-                var storeUpdatedData = updatedData.substring(1, updatedData.length-1);
-            
-                fs.writeFile(outputFile, storeUpdatedData, function(err) {
-                    if(err) {
-                        res.send(err); 
+        MongoClient.connect(dbURL, {useUnifiedTopology:true}, function(err, client) {
+            if(err){
+                return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
+            } else {
+                var dbo = client.db("libraryDatabase");
+                
+                dbo.collection("titles").deleteOne(search, function(err, data) {
+                    if(err){
+                        return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
                     } else {
-                        res.send("SUCCESS");
+                        client.close();
+                        return res.status(200).send(JSON.stringify({msg:"SUCCESS"}));
                     }
-                })
+                });
             }
         });
-
-
-        });
-    
+     })
 }
+        
 
 module.exports = services;

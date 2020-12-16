@@ -4,6 +4,9 @@ const path = require("path");
 const bodyParser = require('body-parser');
 //const fs = require('fs');
 
+const cors = require('cors');
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use("/client", express.static(path.resolve(__dirname + "/../client")));
@@ -11,6 +14,10 @@ app.use("/client", express.static(path.resolve(__dirname + "/../client")));
 //make the server
 var server; 
 var port = process.env.PORT || process.env.NODE_port || 3500;
+
+//check to see if database exists
+var seed = require("./seed.js");
+seed.initializeDatabase();
 
 //var outputFile = './files/library.txt';
 //router listeners

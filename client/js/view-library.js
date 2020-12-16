@@ -8,15 +8,15 @@ app.controller("viewLibraryCntrl", function($scope, $http) {
 $scope.get_titles = function() {
     $http({
         method: "get",
-        url: "libraryURL + "/read-records,
+        url: libraryURL + "/read-records",
     }).then(function(response) {
-        if(response.data.msg == "SUCCESS") {
-            titles = response.data.titles;
+       // if(response.data.msg == "SUCCESS") {
+            titles = response.data;
             $scope.obj = titles[activeTitle];
             $scope.showHide();
-        } else {
-            console.log(response.data.msg);
-        }
+       // } else {
+         //   console.log(response.data.msg);
+       // }
     }, function(response) {
         console.log(response);
 
