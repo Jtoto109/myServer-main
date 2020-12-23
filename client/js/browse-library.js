@@ -30,6 +30,10 @@ function createLibraryTable(libraryData){
                         + "data-id='" + libraryData[i].ID
                         + "'>DELETE</button>"
                         + "</td>";
+                        + "<button class ='btn btn-sm edit_btn update-button' "
+                        + "data-id='" + libraryData[i].ID
+                        + "'>UPDATE</button>"
+                        + "</td>"
             tableHTML += "</tr>";
     }
              

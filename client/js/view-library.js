@@ -36,4 +36,34 @@ $scope.showHide = function() {
     $scope.hideNext = (activeTitle == titles.length-1) ? true : false;
 }
 
+$scope.editTitle = (titleNumber) {
+    $scope.title = $scope.titles[titleNumber].title;
+    $scope.author = $scope.titles[titleNumber].author;
+    $scope.publisher = $scope.titles[titleNumber].publisher;
+    $scope.yearPublished = $scope.titles[titleNumber].yearPublished;
+    $scope.isbn = $scope.titles[titleNumber].isbn;
+}
+$scope.updateTitle = function() {
+    $http({
+        method: "put",
+        url: "http://localhost:3500/update-title",
+        data: {
+            titleId: $scope.titleId,
+            title: $scope.title,
+            publisher: $scope.publisher,
+            yearPublished: $scope.yearPublished,
+            isbn: $scope.isbn
+        }
+    }).then(function(response){
+        if(response.data.msg === "SUCCESS") {
+            $scope.redrawTable();
+            $scope.closeForm();
+        } else {
+            console.log(response.data.msg);
+        }
+    }, function(response) {
+        console.log(response);
+    })
+};
+
 });

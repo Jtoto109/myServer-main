@@ -83,7 +83,75 @@ var services = function(app){
             }
         });
      })
+
+     app.put('/updateLibrary', function(req, res) {
+       var titleID = req.body.titleID;
+       var bookTitle = req.body.bookTitle;
+       var author = req.body.author;
+       var publisher = req.body.publisher;
+       var yearPublished = req.body.yearPublished;
+       var isbn = req.body.isbn;
+
+       var s_id = new Object(titleID);
+       
+       var search = {_id: s_id}
+
+       var updateData = {
+           $set: {
+               bookTitle: bookTitle,
+               author: author,
+               publisher: publisher,
+               yearPublished: yearPublished,
+               isbn: isbn
+           }
+       };
+
+       MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+           if(err) {
+            return res.status(200).send(JSON.stringify({msg: "Error: "+ err}))
+           } else {
+            var dbo = client.db("libraryDatabase");
+
+            dbo.collection("titles").updateOne(search, updateData, function(err) {
+                if(err) {
+                    client.close();
+                    return res.status(200).send(JSON.stringify({msg: "Error: " + err}));
+                } else {
+                    client.close();
+                    return res.status(200).send(JSON.stringify({msg:"SUCCESS"}));
+                }
+            });
+           }
+       });
+       
+     })
 }
+
+app.get('/get-titlesByAuthor', function(req,res) {
+    var author = req.query.author;
+    var search = (author === "") ? {} : {type: type};
+    var sortBy = {name: 1};
+
+    MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+        if(err) {
+            return res.status(200).send(JSON.stringify({msg:"Error: " + err}));
+        } else {
+            var dbo = client.db("libraryDatabase2");
+
+            dbo.collection("titles").find(search).sort(sortBy).toArray(function(err, data) {
+                if(err) {
+                    client.close();
+                    return res.status(200).send(JSON.stringify)({msg:"Error: " + err});
+                } else {
+                    client.close();
+                    return res.status(200).send(JSON.stringify)({msg:"SUCCESS", titles: data});
+                }
+            });
+
+        }
+    });
+});
         
 
 module.exports = services;
+
